@@ -1,6 +1,23 @@
-<form class="form" method="POST">
+<form class="form" method="POST" action=''>
     {{ form.hidden_tag() }}
     {{ form.email.label }}{{ form.email() }}
     {{ form.password.label }}{{ form.password() }}
     {{ form.submit() }}
 </form>
+
+{% if form.email.errors %}
+    <ul class=errors>
+    {% for error in form.email.errors %}
+        <li>{{ error }}</li>
+    {% endfor %}
+    </ul>
+{% endif %}
+
+<!-- {% import "bootstrap/wtf.html" as wtf %}
+
+<form class="form" method="POST">
+    {{ form.hidden_tag() }}
+    {{ wtf.form_field(form.email) }}
+    {{ wtf.form_field(form.password) }}
+    {{ wtf.form_field(form.submit) }}
+</form> -->
