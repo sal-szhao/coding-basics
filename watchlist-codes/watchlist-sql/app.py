@@ -54,6 +54,7 @@ def forge():
         {'title': 'Devils on the Doorstep', 'year': '1999'},
         {'title': 'WALL-E', 'year': '2008'},
         {'title': 'The Pork of Music', 'year': '2012'},
+        {'title': 'The Pork of Music', 'year': '2013'},
     ]
 
     # Insertion of database.
@@ -71,5 +72,18 @@ def forge():
 
     for m in movies:
         print(m.title, m.year)
+
+    filtered_movies = Movie.query.filter_by(title='The Pork of Music').all()
+    print(filtered_movies)
+
+    filtered_movies = db.session.query(Movie).filter_by(title='The Pork of Music').all()
+    print(filtered_movies)
+
+
+
+
+
+    
+
 
 
