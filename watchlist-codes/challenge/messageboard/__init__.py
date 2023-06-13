@@ -23,4 +23,5 @@ db = SQLAlchemy(app)
 bootstrap = Bootstrap5(app)
 moment = Moment(app)
 
-from messageboard import views, errors, commands, forms
+# Models and forms don't need initialization.
+from messageboard import views, errors, commands

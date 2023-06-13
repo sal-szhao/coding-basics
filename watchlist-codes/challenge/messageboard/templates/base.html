@@ -5,29 +5,39 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Say Hello!</title>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.2.1.slim.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script>
+
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
+
+    {{ moment.include_moment() }}
     {% endblock %}
 </head>
 <body>
-    <h2>
-        <img alt="Avatar" class="avatar" src="{{ url_for('static', filename='images/avatar.png') }}">
-        <a href="{{ url_for('index') }}">Say Hello</a> 
-        to the world
-    </h2>
+    <main class="container">
+        <h2>
+            <img alt="Avatar" class="avatar" src="{{ url_for('static', filename='images/avatar.png') }}">
+            <a href="{{ url_for('index') }}" class="text-success">Say Hello</a> 
+            to the world
+        </h2>
 
-    {% for message in get_flashed_messages() %}
-        <div class="alert alert-info">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            {{ message }}
-        </div>
-    {% endfor %}
+        {% for message in get_flashed_messages() %}
+            <div class="alert alert-info">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{ message }}
+            </div>
+        {% endfor %}
+        
+        {% block content %}{% endblock %}
+        <footer>
+            <small>&copy; 2018 <a href="http://helloflask.com/book/3">HelloFlask</a></small>
+            <p><a id="bottom" href="#" title="Go Top">&uarr;</a></p>
+        </footer>
+    </main>
     
-    {% block content %}{% endblock %}
-    <footer>
-        <small>&copy; 2018 <a href="http://helloflask.com/book/3">HelloFlask</a></small>
-        <p><a id="bottom" href="#" title="Go Top">&uarr;</a></p>
-        {{ moment.include_moment() }}
-    </footer>
 </body>
 </html>
