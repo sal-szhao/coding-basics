@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% from 'bootstrap/form.html' import render_form %}
+
+{% block content %}
+
+<div class="form">
+    {{ render_form(form) }}
+</div>
+
+<span>{{ messages|length }} messages</span>
+<span class="float-right"><a href="#bottom" title="Go Bottom">&darr;</a></span>
+
+<ul class="message-list">
+    {% for message in messages %}
+        <li>
+            <span>{{ message.name }} #{{ message.id }}</span>
+            <span class='float-right'>{{ moment(message.time).fromNow(refresh=True) }}</span>
+            <p class='float-left'>{{ message.message }}</p>
+        </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
