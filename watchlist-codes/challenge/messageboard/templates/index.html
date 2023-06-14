@@ -5,7 +5,7 @@
 {% block content %}
 
 <div class="form">
-    {{ render_form(form) }}
+    {{ render_form(form, action=request.full_path) }}
 </div>
 
 <span>{{ messages|length }} messages</span>
