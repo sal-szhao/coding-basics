@@ -6,4 +6,3 @@ class Message(db.Model):
     name = db.Column(db.String(20))
     message = db.Column(db.String(20))
     time = db.Column(db.DateTime, default=datetime.utcnow)
-
