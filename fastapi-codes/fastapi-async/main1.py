@@ -24,25 +24,7 @@ async def my_func_2():
 
     return 'b..!!'
 
-@app.get("/home-gather")
-async def root():
-    """
-    my home route
-    """
-    start = time.time()
-    futures = [my_func_1(), my_func_2()]
-    a,b = await asyncio.gather(*futures)
-    end = time.time()
-    print('It took {} seconds to finish execution.'.format(round(end-start)))
-
-    return {
-        'a': a,
-        'b': b
-    }
-
-
-# Will be directly running the following code.
-@app.get("/home-create-task")
+@app.get("/home")
 async def root():
     """
     my home route
