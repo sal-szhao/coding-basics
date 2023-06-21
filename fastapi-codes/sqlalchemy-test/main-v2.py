@@ -3,7 +3,9 @@ from sqlalchemy import ForeignKey, String, select
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship, Session
 from sqlalchemy import create_engine
 
-engine = create_engine("sqlite:///./sql_app.db", echo=True)
+# version 2.0.1
+# cannot find the database
+engine = create_engine("sqlite:////foo.db", echo=False)
 
 class Base(DeclarativeBase):
     pass
@@ -69,3 +71,31 @@ stmt = select(User).where(User.name.in_(["spongebob", "sandy"]))
 
 for user in session.scalars(stmt):
     print(user)
+
+
+# Join operation.
+stmt = (
+    select(Address)
+    .join(Address.user)
+    .where(User.name == "sandy")
+    .where(Address.email_address == "sandy@sqlalchemy.org")
+)
+
+sandy_address = session.scalars(stmt).one()
+
+# Deletion.
+sandy = session.get(User, 2)
+sandy.addresses.remove(sandy_address)
+session.flush()
+
+stmt = (
+    select(Address)
+    .join(Address.user)
+    .where(User.name == "sandy")
+)
+
+for address in session.scalars(stmt):
+    print(address)
+
+session.close()
+
