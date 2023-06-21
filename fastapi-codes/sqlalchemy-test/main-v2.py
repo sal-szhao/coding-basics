@@ -3,9 +3,6 @@ from sqlalchemy import ForeignKey, String, select
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship, Session
 from sqlalchemy import create_engine
 
-# version 2.0.1
-# cannot find the database
-engine = create_engine("sqlite:////foo.db", echo=False)
 
 class Base(DeclarativeBase):
     pass
@@ -38,8 +35,8 @@ class Address(Base):
     
 
 # Initialization.
-engine = create_engine("sqlite://", echo=True)
-
+# version 2.0.1
+engine = create_engine("sqlite:///./foo.db", echo=False)
 Base.metadata.create_all(engine)
 
 # Insertion.
