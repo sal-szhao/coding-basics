@@ -4,7 +4,7 @@ from .main import app
 client = TestClient(app)
 
 def test_read_users():
-    response = client.get('/users/?token=jessica')
+    response = client.get('/users', params={'token': 'jessica'})
     assert response.status_code == 200
     assert {"username": "Rick"} in response.json()
     assert {"username": "Morty"} in response.json()
