@@ -14,7 +14,7 @@ class ValueRange:
 def test(T1: Annotated[int, ValueRange(-10, 5)], T2: int):
     pass
 
-test('abc', 'abc')  # Even the tyoe is wrong, python will not raise errors.
+test('abc', 'abc')  # Even the type is wrong, python will not raise errors.
 
 '''
 Pydantic v2 is often used in data type validation, which is extremely fast.
@@ -32,16 +32,21 @@ user = User(id=4, name='Marcus')
 # User(id='abc', name=123)      # Will raise a validation error.
 
 # Output to dict / json.
-print(user.dict())
-print(user.json())
+print(user.model_dump())
+print(user.model_dump_json())
 
 # Input convert from JSON.
-m = User.parse_raw('{"id": "5", "name": "Peter"}')
+m = User.model_validate_json('{"id": "5", "name": "Peter"}')
 print(m)
 
-# Input convert from SQLAlchemy ORM.
+print("-" * 65)
+
+'''
+Input convert from SQLAlchemy ORM.
+'''
 from sqlalchemy.orm import registry
 from sqlalchemy import Column, Integer, String
+from pydantic import ConfigDict
 
 mapper_registry = registry()
 @mapper_registry.mapped
@@ -53,21 +58,41 @@ class CompanyOrm:
 
 
 class CompanyModel(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     company: str
 
-    class Config:
-        orm_mode = True
-
 co_orm = CompanyOrm(id=1, company="google")
 print(co_orm)
-co_model = CompanyModel.from_orm(co_orm)
+co_model = CompanyModel.model_validate(co_orm)
 print(co_model)
+
+print("-" * 65)
+
+
+'''
+One can set `strict` to be True to disable the type coercion.
+'''
+
+class coerce(BaseModel):
+    isTrue: bool
+
+class non_coerce(BaseModel):
+    model_config = ConfigDict(strict=True)
+    isTrue: bool
+
+print(coerce(isTrue=1))
+# print(non_coerce(isTrue=1))       # In strict mode, int cannot be converted to bool.
+
+print("-" * 65)
+
 
 '''
 User can define custom validators for the pydantic model.
 '''
-from pydantic import validator
+from pydantic import field_validator
+from pydantic_core.core_schema import FieldValidationInfo
 
 class UserModel(BaseModel):
     name: str
@@ -75,23 +100,27 @@ class UserModel(BaseModel):
     password1: str
     password2: str
 
-    @validator('name')
+    @field_validator('name')
     def name_must_contain_space(cls, v):
         if ' ' not in v:
             raise ValueError('must contain a space')
         return v.title()
 
     # values contain verified fields.
-    @validator('password2')
-    def passwords_match(cls, v, values, **kwargs):
-        if 'password1' in values and v != values['password1']:
+    @field_validator('password2')
+    def passwords_match(cls, v, info: FieldValidationInfo):
+        if 'password1' in info.data and v != info.data['password1']:
             raise ValueError('passwords do not match')
         return v
 
-    @validator('username')
+    @field_validator('username')
     def username_alphanumeric(cls, v):
         assert v.isalpha(), 'must be alphanumeric'
         return v
     
 print(UserModel(name='samuel colvin', username='scolvin', password1='zxcvbn',
                 password2='zxcvbn'))
+
+# Will throw a validation error.
+# print(UserModel(name='samuelcolvin', username='scolvin', password1='zxcvbn',
+#                 password2='zxcvbn'))
