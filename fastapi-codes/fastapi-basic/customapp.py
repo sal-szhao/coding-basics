@@ -2,6 +2,7 @@ import asyncio
 
 # Defined app should expose an async callable which takes three arguments:
 # scope, receive, send.
+# Starlette definds a function __call__ with these arguments. 
 async def app(scope, receive, send):
     """
     Send a slowly streaming HTTP response back to the client.
