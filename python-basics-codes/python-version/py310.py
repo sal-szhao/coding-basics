@@ -64,7 +64,12 @@ def square(number: int | float) -> int | float:
 
 if __name__ == '__main__':
     import sys
-    if len(sys.argv) > 2:
-        globals()[sys.argv[1]](sys.argv[2])
-    else:
-        globals()[sys.argv[1]]()
+
+    match len(sys.argv):
+        case 1:
+            print(globals())        # Print all the global names in the file.
+        case 2:
+            globals()[sys.argv[1]]()
+        case 3:
+            globals()[sys.argv[1]](sys.argv[2])
+        
