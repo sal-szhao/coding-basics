@@ -1,0 +1,11 @@
+<script>
+    async function fetchText() {
+        let response = await fetch('http://127.0.0.1:8000/middle');
+        let data = await response.text();
+        console.log(data);
+    }
+
+    fetchText();
+</script>
+
+<h1>Hello world!</h1>
