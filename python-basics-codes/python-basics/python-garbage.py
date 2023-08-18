@@ -26,6 +26,7 @@ print("-" * 65)
 Sometimes the reference counting will not work (data leakage).
 Eg. Cyclical references.
 Manually call the garbage collector with mark and sweep.
+Mark the reachable objects and sweep the unmarked ones.
 '''
 class A(str):
     def __del__(self):
@@ -42,3 +43,16 @@ print("calling garbage collector")
 import gc
 gc.collect()
 print(sys.getrefcount(A))       # 5, manually call the garbage collector.
+
+
+'''
+Generational collection 
+Objects that survive several garbage collection cycles in the young generation 
+are promoted to the older generations, where garbage collection is performed less frequently.
+'''
+
+'''
+Variable names and addresses are stored in stack.
+Actual objects are stored in heap.
+gc exists in heap.
+'''
