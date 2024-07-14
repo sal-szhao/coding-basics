@@ -15,8 +15,7 @@ jobs:
         with:
           python-version: '3.9'
         name: 'Install python dependencies.'
-        run: pip install fastapi
-        run: pip install pytest
+        run: pip install fastapi pytest
 
       - name: 'Test with pytest run'
         run: pytest 
