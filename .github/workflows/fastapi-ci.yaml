@@ -20,4 +20,4 @@ jobs:
         run: pip install fastapi pytest
 
       - name: 'Test with pytest run'
-        run: pytest 
+        run: pytest fastapi-codes
