@@ -1,3 +1,8 @@
+'''
+Simple fast-api pytest file for testing Github Actions to realize
+continuous integration (CI). 
+'''
+
 from fastapi.testclient import TestClient
 
 from ci import app
