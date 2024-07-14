@@ -1,0 +1,22 @@
+name: Fastapi-CI-Actions
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        name: 'Check out git repository.'
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+        name: 'Install python dependencies.'
+        run: pip install fastapi
+        run: pip install pytest
+
+      - name: 'Test with pytest run'
+        run: pytest 
